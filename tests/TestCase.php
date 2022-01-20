@@ -48,6 +48,27 @@ abstract class TestCase extends OrchestraTestCase
                     ],
                 ],
             ],
+            'json_foo' => [
+                'pull' => [
+                    'class'   => \ExternalFeedParser\Pull\JsonFeedPull::class,
+                    'options' => [
+                        'url'        => 'https://www.test.com/foo.json',
+                        'listingKey' => 'baz.qux',
+                        'args'       => [
+                            'timeout' => 16,
+                            'headers' => [
+                                'AuthKey' => 'FOO-BAR',
+                            ],
+                        ],
+                    ],
+                ],
+                'convert' => [
+                    'class'   => \ExternalFeedParser\Converters\SimpleConverter::class,
+                    'options' => [
+                        'entityClass' => \ExternalFeedParser\Entity\ExternalEntity::class,
+                    ],
+                ],
+            ],
         ]);
     }
 }

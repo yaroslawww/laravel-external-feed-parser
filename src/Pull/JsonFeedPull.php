@@ -3,11 +3,9 @@
 namespace ExternalFeedParser\Pull;
 
 use ExternalFeedParser\Contracts\PullProcessor;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Mtownsend\XmlToArray\XmlToArray;
 
-class XmlFeedPull implements PullProcessor
+class JsonFeedPull implements PullProcessor
 {
     use HasPendingRequest;
 
@@ -24,9 +22,7 @@ class XmlFeedPull implements PullProcessor
     {
         $response = $this->preparePendingRequest()->get($this->url);
 
-        $array = XmlToArray::convert($response->body());
-
-        $data = $this->listingKey ? Arr::get($array, $this->listingKey, []) : $array;
+        $data = $response->json($this->listingKey, []);
 
         return collect($data);
     }
